@@ -243,7 +243,7 @@ void UGeneratedMeshComponent::RecalculateNormals()
 		FVector normal = FVector(0, 0, 0);
 
 		for (FVector v : faceLookup[i].Normals){
-			normal += v.SafeNormal();
+			normal += v;
 		}
 		
 

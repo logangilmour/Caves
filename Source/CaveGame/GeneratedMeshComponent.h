@@ -4,6 +4,10 @@
 #include "GeneratedMeshComponent.generated.h"
 
 
+
+
+
+
 struct FNormalList
 {
 	TArray<FVector> Normals;
@@ -89,6 +93,7 @@ public:
 
 	TArray<FDynamicMeshVertex> Vertices;
 	TArray<int32> Indices;
+
 
 private:
 
