@@ -16,9 +16,9 @@ struct FFace
 	GENERATED_USTRUCT_BODY()
 
 
-		
-	UPROPERTY()
-	TArray<int32> Indices;
+
+		UPROPERTY()
+		TArray<int32> Indices;
 	TMap<FName, int32> Attributes;
 
 	void Hide(){
@@ -39,8 +39,13 @@ struct FMod
 {
 	GENERATED_USTRUCT_BODY()
 		
-		UPROPERTY()
-		TArray<int32> Faces;
+	UPROPERTY()
+	TArray<int32> Faces;
+
+	UPROPERTY()
+		FVector Direction;
+	UPROPERTY()
+		FVector Orientation;
 
 };
 

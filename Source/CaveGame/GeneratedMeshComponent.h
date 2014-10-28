@@ -89,8 +89,6 @@ public:
 	void UpdateBodySetup();
 	void UpdateCollision();
 
-	void RecalculateNormals();
-
 	TArray<FDynamicMeshVertex> Vertices;
 	TArray<int32> Indices;
 

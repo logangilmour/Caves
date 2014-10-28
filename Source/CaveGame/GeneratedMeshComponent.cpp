@@ -190,8 +190,6 @@ bool UGeneratedMeshComponent::SetGeneratedMeshTriangles(const TArray<FDynamicMes
 {
 	Vertices = vertices;
 	Indices = indices;
-
-	RecalculateNormals();
 	// Need to recreate scene proxy to send it over
 	MarkRenderStateDirty();
 
@@ -207,51 +205,6 @@ FPrimitiveSceneProxy* UGeneratedMeshComponent::CreateSceneProxy()
 		Proxy = new FGeneratedMeshSceneProxy(this);
 	}
 	return Proxy;
-}
-
-void UGeneratedMeshComponent::RecalculateNormals()
-{
-
-	TMap<int32, FNormalList> faceLookup;
-	
-	for (int32 i = 0; i < Indices.Num(); i+=3)
-	{
-		FVector v0 = Vertices[Indices[i]].Position;
-		FVector v1 = Vertices[Indices[i + 1]].Position;
-		FVector v2 = Vertices[Indices[i + 2]].Position;
-
-		const FVector Edge01 = (v1 - v0);
-		const FVector Edge02 = (v2 - v0);
-
-
-
-		const FVector Normal = (Edge02 ^ Edge01);
-
-		faceLookup.FindOrAdd(Indices[i]).Normals.Add(Normal);
-		faceLookup.FindOrAdd(Indices[i+1]).Normals.Add(Normal);
-		faceLookup.FindOrAdd(Indices[i+2]).Normals.Add(Normal);
-
-
-		/*
-		const FVector TangentX = Edge01.SafeNormal();
-		const FVector TangentZ = (Edge02 ^ Edge01).SafeNormal();
-		const FVector TangentY = (TangentX ^ TangentZ).SafeNormal();
-		*/
-	}
-	for (int32 i = 0; i < Vertices.Num(); i++){
-		
-		FVector normal = FVector(0, 0, 0);
-
-		for (FVector v : faceLookup[i].Normals){
-			normal += v;
-		}
-		
-
-
-		FVector TangentZ = normal.SafeNormal();
-
-		Vertices[i].SetTangents(TangentZ, TangentZ, TangentZ);
-	}
 }
 
 int32 UGeneratedMeshComponent::GetNumMaterials() const
